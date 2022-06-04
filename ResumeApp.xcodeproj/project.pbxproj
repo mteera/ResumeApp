@@ -20,6 +20,8 @@
 		771CEDBB284A049800F58C5C /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 771CEDB9284A049800F58C5C /* SelectableTableViewCell.xib */; };
 		771CEDBD284A061100F58C5C /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771CEDBC284A061100F58C5C /* TableViewController.swift */; };
 		771CEDBF284A184B00F58C5C /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771CEDBE284A184B00F58C5C /* EditViewController.swift */; };
+		77B5F267284B14240031E275 /* EditObjectivesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B5F266284B14240031E275 /* EditObjectivesViewController.swift */; };
+		77B5F269284B2F520031E275 /* ResumeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B5F268284B2F520031E275 /* ResumeListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		771CEDB9284A049800F58C5C /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectableTableViewCell.xib; sourceTree = "<group>"; };
 		771CEDBC284A061100F58C5C /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		771CEDBE284A184B00F58C5C /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		77B5F266284B14240031E275 /* EditObjectivesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditObjectivesViewController.swift; sourceTree = "<group>"; };
+		77B5F268284B2F520031E275 /* ResumeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,14 +111,12 @@
 		771CED852849FAA200F58C5C /* ResumeApp */ = {
 			isa = PBXGroup;
 			children = (
+				77B5F26B284B30C50031E275 /* Scenes */,
+				77B5F26A284B30B60031E275 /* Views */,
 				771CED862849FAA200F58C5C /* AppDelegate.swift */,
 				771CED882849FAA200F58C5C /* SceneDelegate.swift */,
 				771CED8A2849FAA200F58C5C /* ViewController.swift */,
-				771CEDBC284A061100F58C5C /* TableViewController.swift */,
-				771CEDB8284A049800F58C5C /* SelectableTableViewCell.swift */,
-				771CEDB9284A049800F58C5C /* SelectableTableViewCell.xib */,
 				771CED8C2849FAA200F58C5C /* Main.storyboard */,
-				771CEDBE284A184B00F58C5C /* EditViewController.swift */,
 				771CED8F2849FAB100F58C5C /* Assets.xcassets */,
 				771CED912849FAB100F58C5C /* LaunchScreen.storyboard */,
 				771CED942849FAB100F58C5C /* Info.plist */,
@@ -137,6 +139,26 @@
 				771CEDA92849FAB300F58C5C /* ResumeAppUITestsLaunchTests.swift */,
 			);
 			path = ResumeAppUITests;
+			sourceTree = "<group>";
+		};
+		77B5F26A284B30B60031E275 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				771CEDB8284A049800F58C5C /* SelectableTableViewCell.swift */,
+				771CEDB9284A049800F58C5C /* SelectableTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		77B5F26B284B30C50031E275 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				771CEDBC284A061100F58C5C /* TableViewController.swift */,
+				77B5F268284B2F520031E275 /* ResumeListViewController.swift */,
+				77B5F266284B14240031E275 /* EditObjectivesViewController.swift */,
+				771CEDBE284A184B00F58C5C /* EditViewController.swift */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,9 +294,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				771CED8B2849FAA200F58C5C /* ViewController.swift in Sources */,
+				77B5F267284B14240031E275 /* EditObjectivesViewController.swift in Sources */,
 				771CED872849FAA200F58C5C /* AppDelegate.swift in Sources */,
 				771CED892849FAA200F58C5C /* SceneDelegate.swift in Sources */,
 				771CEDBF284A184B00F58C5C /* EditViewController.swift in Sources */,
+				77B5F269284B2F520031E275 /* ResumeListViewController.swift in Sources */,
 				771CEDBD284A061100F58C5C /* TableViewController.swift in Sources */,
 				771CEDBA284A049800F58C5C /* SelectableTableViewCell.swift in Sources */,
 			);

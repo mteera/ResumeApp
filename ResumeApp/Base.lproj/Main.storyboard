@@ -17,17 +17,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Viu-9h-mre" kind="relationship" relationship="rootViewController" id="pfk-DU-ADq"/>
+                        <segue destination="0OQ-5Z-B6X" kind="relationship" relationship="rootViewController" id="3Mh-pe-onV"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzi-hS-zjv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1861" y="-322"/>
+            <point key="canvasLocation" x="-2432" y="-322"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="zkO-an-Gd1">
             <objects>
-                <tableViewController id="Viu-9h-mre" customClass="TableViewController" customModule="ResumeApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TableViewController" id="Viu-9h-mre" customClass="TableViewController" customModule="ResumeApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="15l-53-K58">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -43,6 +43,28 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIT-N9-ohu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1128" y="-322"/>
+        </scene>
+        <!--Resume List View Controller-->
+        <scene sceneID="Uwu-NX-0wI">
+            <objects>
+                <tableViewController storyboardIdentifier="ResumeListViewController" id="0OQ-5Z-B6X" customClass="ResumeListViewController" customModule="ResumeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="hgC-a8-cWH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="0OQ-5Z-B6X" id="pGV-EV-43H"/>
+                            <outlet property="delegate" destination="0OQ-5Z-B6X" id="P7D-rS-Io1"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="95L-K7-LES"/>
+                    <connections>
+                        <segue destination="Viu-9h-mre" kind="show" id="nke-SL-jHf"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mYX-iK-jM7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1777" y="-317"/>
         </scene>
         <!--Edit Basic Info View Controller-->
         <scene sceneID="6Fp-uW-gaF">
@@ -172,7 +194,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sr1-EE-yxg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-333" y="-322"/>
+            <point key="canvasLocation" x="-480" y="-322"/>
         </scene>
         <!--Edit Objectives View Controller-->
         <scene sceneID="h1J-yN-cp0">
@@ -219,7 +241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vHM-q8-Q92" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-333" y="398"/>
+            <point key="canvasLocation" x="-481" y="320"/>
         </scene>
     </scenes>
     <resources>

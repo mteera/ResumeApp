@@ -7,7 +7,13 @@
 
 import UIKit
 
+
+struct BasicInfo {
+    let firstName, lastName, number, email, address, imageUrl: String
+}
+
 class EditBasicInfoViewController: UIViewController {
+    
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -16,23 +22,18 @@ class EditBasicInfoViewController: UIViewController {
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
     
+    var info: BasicInfo?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.layer.cornerRadius = imageView.frame.height / 2
         imageView.clipsToBounds = true
-
-        // Do any additional setup after loading the view.
+ 
+        guard let info = info else { return }
+        firstNameTextField.text = info.firstName
+        lastNameTextField.text = info.lastName
+        emailTextField.text = info.email
+        addressTextField.text = info.address
+        phoneTextField.text = info.number
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
