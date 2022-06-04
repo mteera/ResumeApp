@@ -66,7 +66,7 @@ class TableViewController: UITableViewController {
             self.navigationItem.title = flowType.navTitle
         }
     }
-    var resumeItem: ResumeItem?
+//    var resumeItem: ResumeItem?
     var menuOptions: [MenuOption] = [.info,
                                      .objective,
                                      .workSummary,
@@ -109,7 +109,8 @@ class TableViewController: UITableViewController {
 
         switch menuOption {
         case.info:
-            routeToInfo(resumeItem?.info, menu: menuOption)
+            break
+//            routeToInfo(resumeItem?.info, menu: menuOption)
         case .objective:
             routeToObjectives(menuOption)
         default: break
