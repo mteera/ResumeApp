@@ -31,7 +31,11 @@ import UIKit
 
 class ResumeListViewController: UITableViewController {
     
-    let array: [String] = [""]
+    var resumes: [Resume]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
 //    let array: [ResumeItem] = [
 //        ResumeItem(
@@ -50,23 +54,40 @@ class ResumeListViewController: UITableViewController {
 //        )
 //    ]
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistantContainer.viewContext
+
+    func fetchResumes() {
+        do {
+            let resumes = try context.fetch(Resume.fetchRequest())
+            self.resumes = resumes
+        } catch {
+            // Handle error
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchResumes()
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Resumes"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(addResumeTapped(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New", style: .done, target: self, action: #selector(addResumeTapped(_:)))
     }
     
     // MARK: - Table view data source
   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return array.count
+        return resumes?.count ?? 0
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-//        cell.textLabel?.text = array[indexPath.row].title
+        cell.textLabel?.text = resumes?[indexPath.row].title
         return cell
     }
     
@@ -77,7 +98,7 @@ class ResumeListViewController: UITableViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         vc.flowType = .edit
-//        vc.resumeItem = array[indexPath.row]
+        vc.resume = resumes?[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -90,3 +111,4 @@ class ResumeListViewController: UITableViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+

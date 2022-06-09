@@ -2,7 +2,7 @@
 //  Education+CoreDataProperties.swift
 //  ResumeApp
 //
-//  Created by mongkol.teera on 4/6/22.
+//  Created by mongkol.teera on 8/6/22.
 //
 //
 
@@ -17,8 +17,8 @@ extension Education {
     }
 
     @NSManaged public var degree: String?
-    @NSManaged public var passYear: Int16
     @NSManaged public var gpa: Double
+    @NSManaged public var passYear: Int16
     @NSManaged public var resume: Resume?
 
 }

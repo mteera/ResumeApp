@@ -2,7 +2,7 @@
 //  Info+CoreDataProperties.swift
 //  ResumeApp
 //
-//  Created by mongkol.teera on 4/6/22.
+//  Created by mongkol.teera on 8/6/22.
 //
 //
 
@@ -16,12 +16,13 @@ extension Info {
         return NSFetchRequest<Info>(entityName: "Info")
     }
 
+    @NSManaged public var address: String?
+    @NSManaged public var email: String?
     @NSManaged public var firstName: String?
+    @NSManaged public var imageUrl: String?
     @NSManaged public var lastName: String?
     @NSManaged public var number: String?
-    @NSManaged public var email: String?
-    @NSManaged public var address: String?
-    @NSManaged public var imageUrl: String?
+    @NSManaged public var title: String?
     @NSManaged public var resume: Resume?
 
 }

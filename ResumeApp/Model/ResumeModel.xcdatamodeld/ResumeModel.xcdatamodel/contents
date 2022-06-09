@@ -13,6 +13,7 @@
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="resume" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Resume" inverseName="info" inverseEntity="Resume"/>
     </entity>
     <entity name="Project" representedClassName=".Project" syncable="YES">
@@ -24,16 +25,23 @@
     </entity>
     <entity name="Resume" representedClassName=".Resume" syncable="YES">
         <attribute name="objective" optional="YES" attributeType="String"/>
-        <attribute name="skills" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="skills" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="education" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Education" inverseName="resume" inverseEntity="Education"/>
+        <relationship name="education" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Education" inverseName="resume" inverseEntity="Education"/>
         <relationship name="info" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Info" inverseName="resume" inverseEntity="Info"/>
         <relationship name="projects" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Project" inverseName="resume" inverseEntity="Project"/>
+        <relationship name="work" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Work" inverseName="resume" inverseEntity="Work"/>
+    </entity>
+    <entity name="Work" representedClassName=".Work" syncable="YES">
+        <attribute name="companyName" optional="YES" attributeType="String"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="resume" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Resume" inverseName="work" inverseEntity="Resume"/>
     </entity>
     <elements>
-        <element name="Resume" positionX="-137.1663818359375" positionY="54.813232421875" width="128" height="133"/>
-        <element name="Info" positionX="128.7413330078125" positionY="-13.01974487304688" width="128" height="148"/>
-        <element name="Project" positionX="129.7545166015625" positionY="140.6494293212891" width="128" height="118"/>
         <element name="Education" positionX="129.3900146484375" positionY="265.9765472412109" width="128" height="103"/>
+        <element name="Info" positionX="128.7413330078125" positionY="-13.01974487304688" width="128" height="149"/>
+        <element name="Project" positionX="129.7545166015625" positionY="140.6494293212891" width="128" height="118"/>
+        <element name="Resume" positionX="-137.1663818359375" positionY="54.813232421875" width="128" height="134"/>
+        <element name="Work" positionX="0" positionY="144" width="128" height="74"/>
     </elements>
 </model>

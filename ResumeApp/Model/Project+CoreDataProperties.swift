@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  ResumeApp
 //
-//  Created by mongkol.teera on 4/6/22.
+//  Created by mongkol.teera on 8/6/22.
 //
 //
 
@@ -17,9 +17,9 @@ extension Project {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var teamSize: String?
-    @NSManaged public var summary: String?
     @NSManaged public var role: String?
+    @NSManaged public var summary: String?
+    @NSManaged public var teamSize: String?
     @NSManaged public var resume: Resume?
 
 }
