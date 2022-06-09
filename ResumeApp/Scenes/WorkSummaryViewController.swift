@@ -15,47 +15,69 @@ protocol WorkSummaryProtocol {
     func update(_ workSummaries: [Work])
 }
 
+
+
 class WorkSummaryViewController: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistantContainer.viewContext
     var delegate: WorkSummaryProtocol?
     var workSummaries: [Work]? = [] {
         didSet {
-            companyNameTextField.text = ""
-            durationTextField.text = ""
-
-            self.tableView.reloadData()
-            navigationItem.rightBarButtonItem?.isEnabled = workSummaries != nil ? true : false
+            guard let workSummaries = workSummaries else { return }
+            navigationItem.rightBarButtonItem?.isEnabled = workSummaries.count > 0 ? true : false
         }
     }
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var companyNameTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
+    @IBOutlet weak var addButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Work Summary"
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.reloadData()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveTapped(_:)))
         navigationItem.rightBarButtonItem?.isEnabled = false
+        setupTextFields()
+        addButton.isEnabled = isValid()
+
 
     }
+    
+    func setupTextFields() {
+        companyNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        durationTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    func isValid() -> Bool {
+        return companyNameTextField.text != "" && durationTextField.text != ""
+    }
+    
+    
     @IBAction func addWorkSummary(_ sender: Any) {
         let workSummary = Work(context: context)
         workSummary.companyName = companyNameTextField.text
         workSummary.duration = Int16(durationTextField.text!)!
         workSummaries?.append(workSummary)
-        
+        companyNameTextField.text = ""
+        durationTextField.text = ""
+        addButton.isEnabled = isValid()
+        self.tableView.reloadData()
     }
+
     @objc func saveTapped(_ sender: UIButton) {
         guard let workSummaries = workSummaries else {
             return
-            
         }
 
         delegate?.update(workSummaries)
-        navigationController?.dismiss(animated: true)
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        addButton.isEnabled = isValid()
     }
 }
 

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import CoreData
 
 enum FlowType {
     case create, edit
@@ -76,18 +76,12 @@ class MenuOptionPresenter {
 
 
 class ResumeManager {
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistantContainer.viewContext
-    var resume: Resume?
     
     static let shared = ResumeManager()
     
     init() {}
     
-    func storeResume(_ newResume: Resume) {
-        var resume = Resume(context: context)
-        resume = newResume
-        self.resume = resume
-        
+    func storeResume(_ newResume: Resume, context: NSManagedObjectContext) {
         do {
             try context.save()
         } catch {
@@ -102,6 +96,9 @@ protocol MenuOptionsView {
 
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
+    var array: [Work] = []
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleTextField: UITextField!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistantContainer.viewContext
@@ -111,11 +108,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.navigationItem.title = flowType.navTitle
         }
     }
-    var resume: Resume? {
-        didSet {
-            titleTextField.text = resume?.title
-        }
-    }
+    var resume: Resume?
     var menuOptions: [MenuOption] = [.info,
                                      .objective,
                                      .workSummary,
@@ -123,12 +116,15 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                      .education,
                                      .project]
     
-    let editSegueIdentifier = "editSegueIdentifier"
     private var presenter = MenuOptionPresenter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        guard let title = resume?.title else { return }
+                    titleTextField.text = title
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
     }
     
     
@@ -163,49 +159,66 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return 70
     }
     
-    // MARK: - Navigation
+    
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menuOption = menuOptions[indexPath.row]
 
         switch menuOption {
         case.info:
-            routeToInfo(resume?.info, menu: menuOption)
+            routeToInfo(resume: resume, menu: menuOption)
         case .objective:
-            routeToObjectives(menuOption)
+            routeToObjectives(resume: resume, menu: menuOption)
         case .workSummary:
-            routeToWorkSummary(menuOption)
+            routeToWorkSummary(resume: resume, menu: menuOption)
         default: break
         }
         
     }
 
     @objc func saveTapped(_ sender: UIButton) {
-        let resume = Resume(context: context)
-        resume.title = titleTextField.text ?? "Sample CV"
-        ResumeManager.shared.storeResume(resume)
+        guard let resume = self.resume else {
+            let resume = Resume(context: context)
+            resume.title = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "Sample CV"
+            ResumeManager.shared.storeResume(resume, context: context)
+            navigationItem.rightBarButtonItem?.isEnabled = false
+            navigationController?.dismiss(animated: true)
+
+            return
+            
+        }
+        resume.title = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "Untitled"
+        ResumeManager.shared.storeResume(resume, context: context)
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationController?.dismiss(animated: true)
+
     }
 }
 
 extension TableViewController {
     
-    func routeToInfo(_ info: Info?, menu: MenuOption) {
+    func routeToInfo(resume: Resume?, menu: MenuOption) {
         let vc = initFromStoryboard(identifier: menu.identifier) as! EditBasicInfoViewController
         vc.title = menu.title
-        vc.info  = info
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func routeToObjectives(_ menu: MenuOption) {
+    func routeToObjectives(resume: Resume?, menu: MenuOption) {
         let vc = initFromStoryboard(identifier: menu.identifier) as! EditObjectivesViewController
         vc.title = menu.title
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func routeToWorkSummary(_ menu: MenuOption) {
+    func routeToWorkSummary(resume: Resume?, menu: MenuOption) {
         let vc = initFromStoryboard(identifier: menu.identifier) as! WorkSummaryViewController
         vc.title = menu.title
+        
+        if let resume = resume, let work = resume.work {
+            let array: [Work] = work.toArray()
+            vc.workSummaries = array
+
+        }
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -226,7 +239,7 @@ extension TableViewController: EditInfoProtocol {
     func update(_ info: Info) {
         let resume = Resume(context: context)
         resume.info = info
-        ResumeManager.shared.storeResume(resume)
+//        ResumeManager.shared.storeResume(resume, context: context)
     }
 }
 
@@ -234,17 +247,25 @@ extension TableViewController: EditObjectivesProtocol {
     func update(_ objectives: String) {
         let resume = Resume(context: context)
         resume.objective = objectives
-        ResumeManager.shared.storeResume(resume)
+//        ResumeManager.shared.storeResume(resume)
     }
 }
 
 
 extension TableViewController: WorkSummaryProtocol {
     func update(_ workSummaries: [Work]) {
-        let resume = Resume(context: context)
+        guard let resume = self.resume else {
+            let resume = Resume(context: context)
+            workSummaries.forEach({ work in
+                resume.addToWork(work)
+            })
+            ResumeManager.shared.storeResume(resume, context: context)
+            return
+        }
         workSummaries.forEach({ work in
             resume.addToWork(work)
         })
-        ResumeManager.shared.storeResume(resume)
+        ResumeManager.shared.storeResume(resume, context: context)
+
     }
 }

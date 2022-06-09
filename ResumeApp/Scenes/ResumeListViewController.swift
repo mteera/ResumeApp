@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 //enum Skill: String {
 //    case html, css, javascript, php, swift, kotlin, node, sql
@@ -68,6 +69,14 @@ class ResumeListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchResumes()
+//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Resume")
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//
+//        do {
+//            try context.execute(deleteRequest)
+//        } catch let error as NSError {
+//            // TODO: handle the error
+//        }
 
     }
     
@@ -111,4 +120,5 @@ class ResumeListViewController: UITableViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+
 

@@ -19,10 +19,10 @@ class EditObjectivesViewController: UIViewController {
     
     var objectives: String? {
         didSet {
+            navigationItem.rightBarButtonItem?.isEnabled = objectives != nil ? true : false
             guard let objectives = objectives else {
                 return
             }
-
             textView.text = objectives
         }
     }
@@ -42,15 +42,15 @@ class EditObjectivesViewController: UIViewController {
         placeholderLabel.textColor = .tertiaryLabel
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveTapped(_:)))
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(saveTapped(_:)))
     }
     
     @objc func saveTapped(_ sender: UIButton) {
         delegate?.update(textView.text)
+        navigationController?.dismiss(animated: true)
 
     }
 }
