@@ -2,7 +2,7 @@
 //  Info+CoreDataProperties.swift
 //  ResumeApp
 //
-//  Created by mongkol.teera on 8/6/22.
+//  Created by mongkol.teera on 14/6/22.
 //
 //
 
@@ -19,7 +19,7 @@ extension Info {
     @NSManaged public var address: String?
     @NSManaged public var email: String?
     @NSManaged public var firstName: String?
-    @NSManaged public var imageUrl: String?
+    @NSManaged public var image: Data?
     @NSManaged public var lastName: String?
     @NSManaged public var number: String?
     @NSManaged public var title: String?

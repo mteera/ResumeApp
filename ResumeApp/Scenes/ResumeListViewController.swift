@@ -69,15 +69,6 @@ class ResumeListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchResumes()
-//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Resume")
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//
-//        do {
-//            try context.execute(deleteRequest)
-//        } catch let error as NSError {
-//            // TODO: handle the error
-//        }
-
     }
     
     override func viewDidLoad() {

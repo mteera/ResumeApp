@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol EditObjectivesProtocol {
-    func update(_ objectives: String)
+protocol EditObjectiveProtocol {
+    func update(_ objective: String)
 }
 
 class EditObjectivesViewController: UIViewController {
@@ -17,18 +17,9 @@ class EditObjectivesViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     var placeholderLabel : UILabel!
     
-    var objectives: String? {
-        didSet {
-            navigationItem.rightBarButtonItem?.isEnabled = objectives != nil ? true : false
-            guard let objectives = objectives else {
-                return
-            }
-            textView.text = objectives
-        }
-    }
+    var resume: Resume?
+    var delegate: EditObjectiveProtocol?
     
-    var delegate: EditObjectivesProtocol?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.delegate = self
@@ -46,17 +37,26 @@ class EditObjectivesViewController: UIViewController {
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(saveTapped(_:)))
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        guard let resume = resume, let objective = resume.objective else { return }
+        textView.text = objective
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
-    
+ 
     @objc func saveTapped(_ sender: UIButton) {
         delegate?.update(textView.text)
-        navigationController?.dismiss(animated: true)
-
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 }
 
 extension EditObjectivesViewController : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        guard let resume = resume, let objective = resume.objective else {
+            navigationItem.rightBarButtonItem?.isEnabled = textView.text != "" ? true : false
+            return
+        }
+        navigationItem.rightBarButtonItem?.isEnabled = textView.text != objective ? true : false
+
     }
 }

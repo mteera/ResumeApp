@@ -1,35 +1,28 @@
 //
-//  WorkSummaryViewController.swift
+//  SkillsViewController.swift
 //  ResumeApp
 //
-//  Created by mongkol.teera on 7/6/22.
+//  Created by mongkol.teera on 13/6/22.
 //
 
 import UIKit
 
-struct SomeData {
-    let name: String
+protocol SkillsProtocol {
+    func update(_ skills: [String])
 }
 
-protocol WorkSummaryProtocol {
-    func update(_ workSummaries: [Work])
-}
-
-
-
-class WorkSummaryViewController: UIViewController {
+class SkillsViewController: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistantContainer.viewContext
-    var delegate: WorkSummaryProtocol?
-    var workSummaries: [Work]? = [] {
+    var delegate: SkillsProtocol?
+    var skills: [String]? = [] {
         didSet {
-            guard let workSummaries = workSummaries else { return }
-            navigationItem.rightBarButtonItem?.isEnabled = workSummaries.count > 0 ? true : false
+            guard let skills = skills else { return }
+            navigationItem.rightBarButtonItem?.isEnabled = skills.count > 0 ? true : false
         }
     }
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var companyNameTextField: UITextField!
-    @IBOutlet weak var durationTextField: UITextField!
+    @IBOutlet weak var skillTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,39 +35,35 @@ class WorkSummaryViewController: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = false
         setupTextFields()
         addButton.isEnabled = isValid()
-
-
+        
+        
     }
     
     func setupTextFields() {
-        companyNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        durationTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        skillTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     func isValid() -> Bool {
-        return companyNameTextField.text != "" && durationTextField.text != ""
+        return skillTextField.text != ""
     }
     
     
     @IBAction func addWorkSummary(_ sender: Any) {
-        let workSummary = Work(context: context)
-        workSummary.companyName = companyNameTextField.text
-        workSummary.duration = Int16(durationTextField.text!)!
-        if (workSummaries?.append(workSummary)) == nil {
-            workSummaries = [workSummary]
+        guard let skill = skillTextField.text else { return }
+        if (skills?.append(skill)) == nil {
+            skills = [skill]
         }
-        companyNameTextField.text = ""
-        durationTextField.text = ""
+        skillTextField.text = ""
         addButton.isEnabled = isValid()
         self.tableView.reloadData()
     }
-
+    
     @objc func saveTapped(_ sender: UIButton) {
-        guard let workSummaries = workSummaries else {
+        guard let skills = skills else {
             return
         }
-
-        delegate?.update(workSummaries)
+        
+        delegate?.update(skills)
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
@@ -83,20 +72,20 @@ class WorkSummaryViewController: UIViewController {
     }
 }
 
-extension WorkSummaryViewController: UITableViewDataSource, UITableViewDelegate {
+extension SkillsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        guard let workSummary = workSummaries?[indexPath.row] else { return cell }
-        cell.textLabel?.text = "\(workSummary.companyName ?? "")"
-        cell.detailTextLabel?.text = "\(workSummary.duration) years"
+        guard let skill = skills?[indexPath.row] else { return cell }
+        cell.textLabel?.text = skill
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workSummaries?.count ?? 0
+        return skills?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
